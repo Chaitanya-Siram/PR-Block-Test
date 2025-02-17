@@ -23,8 +23,8 @@ jobs:
         id: block
         with:
           timezone: Asia/Kolkata
-          after: "12:30"
-          before: "12:55"
+          after: "13:30"
+          before: "14:00"
           base-branches: "main"
           prohibited-days-dates: ""  # No specific days blocked, applies every day
       - run: |
