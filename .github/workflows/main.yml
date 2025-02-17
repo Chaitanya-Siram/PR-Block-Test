@@ -8,8 +8,7 @@ on:
       - synchronize
       - labeled
       - unlabeled
-  schedule:
-    - cron: "10 12 * * *"  # Runs daily at 12:10 PM UTC (5:40 PM IST)
+
 
 jobs:
   block:
@@ -23,8 +22,8 @@ jobs:
         id: block
         with:
           timezone: Asia/Kolkata
-          after: "17:45"   # 5:45 PM IST
-          before: "18:00"  # 6:00 PM IST
+          after: "18:15"   # 6:15 PM IST
+          before: "18:30"  # 6:30 PM IST
           base-branches: "main"
           prohibited-days-dates: ""  # No specific days blocked, applies every day
 
