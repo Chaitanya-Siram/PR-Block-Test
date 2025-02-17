@@ -1,0 +1,34 @@
+name: Block Merge Based on Time
+ 
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+  schedule:
+    - cron: "*/25 6 * * *"  # Runs every 30 minutes to check the time window
+ 
+jobs:
+  block:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      statuses: write
+    steps:
+      - uses: yykamei/block-merge-based-on-time@main
+        id: block
+        with:
+          timezone: Asia/Kolkata
+          after: "12:00"
+          before: "12:05"
+          base-branches: "main"
+          prohibited-days-dates: ""  # No specific days blocked, applies every day
+      - run: |
+          echo "PR Blocked: ${{ steps.block.outputs.pr-blocked }}"
+      - run: |
+          echo "Current Time: $(date)"
+        if: github.event_name == 'pull_request'
