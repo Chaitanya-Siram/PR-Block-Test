@@ -9,7 +9,7 @@ on:
       - labeled
       - unlabeled
   schedule:
-    - cron: "*/45 6 * * *"  #  Runs daily at 06:45 AM UTC (12:15 PM IST)
+    - cron: "*/05 8 * * *"  #  Runs daily at 1:35 PM UTC (12:15 PM IST)
  
 jobs:
   block:
