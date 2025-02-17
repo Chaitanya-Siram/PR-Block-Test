@@ -1,5 +1,5 @@
 name: Block Merge Based on Time
- 
+
 on:
   pull_request:
     types:
@@ -8,26 +8,35 @@ on:
       - synchronize
       - labeled
       - unlabeled
+  schedule:
+    - cron: "10 12 * * *"  # Runs daily at 12:10 PM UTC (5:40 PM IST)
 
- 
 jobs:
   block:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: write
       statuses: write
     steps:
       - uses: yykamei/block-merge-based-on-time@main
         id: block
         with:
           timezone: Asia/Kolkata
-          after: "15:30"
-          before: "15:45"
+          after: "17:45"   # 5:45 PM IST
+          before: "18:00"  # 6:00 PM IST
           base-branches: "main"
           prohibited-days-dates: ""  # No specific days blocked, applies every day
-      - run: |
-          echo "PR Blocked: ${{ steps.block.outputs.pr-blocked }}"
-      - run: |
-          echo "Current Time: $(date)"
-        if: github.event_name == 'pull_request'
+
+      - name: Notify in PR comment if blocked
+        if: steps.block.outputs.pr-blocked == 'true'
+        run: |
+          gh pr comment ${{ github.event.pull_request.html_url }} --body "🚨 **Merging is blocked from 5:45 PM to 6:00 PM IST** 🚨"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if PR is blocked
+        if: steps.block.outputs.pr-blocked == 'true'
+        run: |
+          echo "Merging is blocked during this time window!"
+          exit 1
