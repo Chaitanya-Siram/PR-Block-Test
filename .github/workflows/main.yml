@@ -8,8 +8,7 @@ on:
       - synchronize
       - labeled
       - unlabeled
-  schedule:
-    - cron: "*/05 8 * * *"  #  Runs daily at 1:35 PM UTC (12:15 PM IST)
+
  
 jobs:
   block:
