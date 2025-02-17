@@ -9,7 +9,7 @@ on:
       - labeled
       - unlabeled
   schedule:
-    - cron: "*/25 6 * * *"  # Runs every 30 minutes to check the time window
+    - cron: "*/45 6 * * *"  #  Runs daily at 06:45 AM UTC (12:15 PM IST)
  
 jobs:
   block:
@@ -23,8 +23,8 @@ jobs:
         id: block
         with:
           timezone: Asia/Kolkata
-          after: "12:00"
-          before: "12:05"
+          after: "12:15"
+          before: "12:30"
           base-branches: "main"
           prohibited-days-dates: ""  # No specific days blocked, applies every day
       - run: |
